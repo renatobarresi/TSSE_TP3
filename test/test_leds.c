@@ -1,14 +1,8 @@
 /*
-    Prender todos los LEDS de una vez
-    Apagar todos los LEDS de una vez
-    Consultar el estado de un LED que esta encendido
-    Consultar el estado de un LED que esta apagado
-    
-    Revisar limites de los parametros
-    Revisar parametros fuera de los limites
+    Tests TODO:
+    -Revisar limites de los parametros
+    -Revisar parametros fuera de los limites
 */
-
-
 #include "unity.h"
 #include "leds.h"
 
@@ -47,12 +41,14 @@ void test_prender_apagar_led(void)
     TEST_ASSERT_EQUAL(1 << 2, ledsVirtuales);
 }
 
+//Prender todos los LEDS de una vez
 void test_prender_todos_leds_de_una(void)
 {
     leds_turnOnAllLeds();
     TEST_ASSERT_EQUAL(0xFFFF, ledsVirtuales);
 }
 
+//Apagar todos los LEDS de una vez
 void test_apagar_todos_leds(void)
 {
     leds_turnOnAllLeds();
@@ -66,4 +62,13 @@ void test_consultar_estado_led_on(void)
     leds_turnSingleLedOn(3);
     uint8_t flag = leds_checkStatus(3);
     TEST_ASSERT_EQUAL_HEX(1, flag);
+}
+
+//Consultar el estado de un LED que esta apagado
+void test_consultar_estado_led_off(void)
+{
+    leds_turnOnAllLeds();
+    leds_turnSingleLedOff(3);
+    uint8_t flag = leds_checkStatus(3);
+    TEST_ASSERT_EQUAL_HEX(0, flag);
 }

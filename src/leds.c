@@ -2,7 +2,11 @@
 
 #define LEDS_OFFSET     1
 #define FIRST_BIT_ON    1
-#define FIRST_ALL_OFF    0
+#define FIRST_ALL_OFF   0
+#define ALL_LEDS_ON     0xFFFF
+#define ALL_LEDS_OFF    0x0000
+
+#define CHECK_BIT(var,pos) (((var)>>(pos)) & 1)
 
 static uint16_t * puerto;
 
@@ -29,19 +33,15 @@ void leds_turnSingleLedOff(uint8_t bitPos)
 
 void leds_turnOnAllLeds()
 {
-    *puerto = 0xFFFF;
+    *puerto = ALL_LEDS_ON;
 }
 
 void leds_turnOffAllLeds()
 {
-    *puerto = 0x0000;
+    *puerto = ALL_LEDS_OFF;
 }
 
 uint8_t leds_checkStatus(uint8_t pin)
 {
-    uint16_t valBit;
-    valBit = *puerto >> pin;
-    if(valBit)
-        return 1;
-    return 0;
+    return CHECK_BIT(*puerto, pin-1);
 }
